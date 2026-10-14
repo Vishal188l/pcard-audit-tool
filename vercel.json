@@ -1,0 +1,6 @@
+{
+  "functions": {
+    "api/ask.js": { "memory": 256 },
+    "api/summarize.js": { "memory": 256 }
+  }
+}

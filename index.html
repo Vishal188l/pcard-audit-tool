@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSU P-Card Audit Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">PC</span>
+      <div>
+        <p class="brand-title">P-Card Audit Tool</p>
+        <p class="brand-sub">Oklahoma State University &middot; purchasing card transactions, 2010&ndash;2014</p>
+      </div>
+    </div>
+    <div id="db-status" class="db-status">Loading transaction data&hellip;</div>
+  </div>
+</header>
+
+<main class="shell">
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="ask" role="tab" aria-selected="true">Ask a Question</button>
+    <button class="tab" data-tab="dashboard" role="tab" aria-selected="false">Prohibited-Purchase Dashboard</button>
+  </nav>
+
+  <!-- ASK TAB -->
+  <section id="panel-ask" class="panel active">
+    <p class="panel-intro">Ask about the P-card data in plain English. Your question is turned into a read-only SQL query, run against the data in your browser, then summarized.</p>
+
+    <form id="ask-form" class="card">
+      <label for="question">Your question</label>
+      <textarea id="question" rows="2" placeholder="e.g. Which employees spent over $20,000 in 2013?"></textarea>
+      <div class="example-row">
+        <span>Try:</span>
+        <button type="button" class="chip" data-example="Which employees spent more than $20,000 in 2013?">spending over $20k in 2013</button>
+        <button type="button" class="chip" data-example="How many transactions were made at Walmart in 2014?">Walmart transactions, 2014</button>
+        <button type="button" class="chip" data-example="What is the total amount spent in each year?">totals by year</button>
+      </div>
+      <button type="submit" id="ask-submit" class="btn-primary">Ask</button>
+    </form>
+
+    <div id="ask-status" class="status" hidden></div>
+
+    <div id="ask-result" class="result-block" hidden>
+      <p class="result-answer" id="answer-text"></p>
+      <details class="sql-details">
+        <summary>SQL query used</summary>
+        <pre id="sql-text" class="sql-pre"></pre>
+      </details>
+      <p class="row-note" id="ask-row-note"></p>
+      <div class="table-wrap"><table id="ask-table"></table></div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD TAB -->
+  <section id="panel-dashboard" class="panel">
+    <details class="instructions" open>
+      <summary>How to use this dashboard</summary>
+      <ol>
+        <li>Pick a year to narrow the search.</li>
+        <li>Use <strong>description search</strong> to look for a keyword inside what the purchase was recorded as (e.g. "wine", "flowers", "membership").</li>
+        <li>Use <strong>vendor search</strong> to look for a keyword in the merchant name (e.g. "liquor", "postal", "insurance").</li>
+        <li>Each result shows the transaction details needed to trace it back to the cardholder for follow-up. A match is a <em>potential</em> deviation, not proof &mdash; confirm against supporting documentation before concluding anything.</li>
+      </ol>
+      <p class="instructions-note">Reminder of prohibited categories: alcohol &middot; cash/ATM &middot; decorations &middot; donations/sponsorships &middot; gasoline &middot; gifts &amp; gift cards &middot; insurance &middot; late fees &middot; mail/postage &middot; moving expenses &middot; personal purchases &middot; personal memberships &middot; salaries/wages/benefits &middot; service &amp; incentive awards.</p>
+    </details>
+
+    <div class="card dash-controls">
+      <div class="field">
+        <label for="year-select">Year</label>
+        <select id="year-select"></select>
+      </div>
+
+      <div class="search-pair">
+        <div class="field">
+          <label for="desc-keyword">Description search</label>
+          <div class="search-row">
+            <input type="text" id="desc-keyword" placeholder="e.g. wine, flowers, membership">
+            <button id="desc-search-btn" class="btn-secondary">Search</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="vendor-keyword">Vendor search</label>
+          <div class="search-row">
+            <input type="text" id="vendor-keyword" placeholder="e.g. liquor, postal, insurance">
+            <button id="vendor-search-btn" class="btn-secondary">Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="dash-status" class="status" hidden></div>
+
+    <div id="dash-result" class="result-block" hidden>
+      <p class="row-note" id="dash-row-note"></p>
+      <div class="table-wrap"><table id="dash-table"></table></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Built for the Analytics Mindset P-Card case &middot; data covers Oklahoma State University P-card transactions, 2010&ndash;2014.</p>
+</footer>
+
+<script src="sql-wasm.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
