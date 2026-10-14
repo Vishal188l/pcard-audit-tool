@@ -2,7 +2,7 @@
 // The Gemini API key is read from an environment variable — never from
 // this file or the repository.
 
-const GEMINI_MODEL = "gemini-flash-latest";
+const GEMINI_MODEL = "gemini-3.5-flash-lite";
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
