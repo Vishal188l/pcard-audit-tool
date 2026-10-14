@@ -21,7 +21,7 @@ Columns:
 `;
 
 const FORBIDDEN_SQL = /\b(INSERT|UPDATE|DELETE|DROP|ALTER|ATTACH|DETACH|CREATE|REPLACE|PRAGMA|VACUUM|TRIGGER)\b/i;
-const GEMINI_MODEL = "gemini-flash-latest";
+const GEMINI_MODEL = "gemini-3.5-flash-lite";
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
